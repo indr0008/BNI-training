@@ -1,0 +1,21 @@
+<!-- templates/index_api.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Data Fetching</title>
+</head>
+<body>
+    <h1>API Data Fetching</h1>
+
+    <ul>
+        {% for todo in todos %}
+            <li>
+                {{ todo.title }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
