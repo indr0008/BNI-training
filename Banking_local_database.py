@@ -22,7 +22,7 @@ def get_initial_balance():
     cursor = connection.cursor()
 
     # Execute a SQL query to retrieve the initial balance for a specific user (e.g., Leslie)
-    cursor.execute("SELECT balance FROM balance WHERE first_name = 'Leslie'")
+    cursor.execute("SELECT balance FROM employee_salary WHERE username = 'Leslie'")
     
     # Fetch the result of the query
     result = cursor.fetchone()
@@ -52,7 +52,7 @@ def deposit():
     connection = mysql.connector.connect(**db_config)
     cursor = connection.cursor()
 
-    cursor.execute("UPDATE balance SET balance = balance + %s WHERE first_name = 'Leslie'", (amount,))
+    cursor.execute("UPDATE employee_salary SET balance = balance + %s WHERE username = 'Leslie'", (amount,))
     connection.commit()
 
     # Close the cursor and the database connection
@@ -76,7 +76,7 @@ def withdraw():
         connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor()
 
-        cursor.execute("UPDATE balance SET balance = balance - %s WHERE first_name = 'Leslie'", (amount,))
+        cursor.execute("UPDATE employee_salary SET balance = balance - %s WHERE username = 'Leslie'", (amount,))
         connection.commit()
 
         # Close the cursor and the database connection
@@ -107,7 +107,7 @@ class Giga(Resource):
         connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor()
 
-        cursor.execute("UPDATE balance SET balance = balance + %s WHERE first_name = 'Leslie'", (amount,))
+        cursor.execute("UPDATE employee_salary SET balance = balance + %s WHERE username = 'Leslie'", (amount,))
         connection.commit()
 
         cursor.close()
@@ -122,11 +122,11 @@ class Ulala(Resource):
         connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor()
 
-        cursor.execute("SELECT balance FROM balance WHERE first_name = 'Leslie'")
+        cursor.execute("SELECT balance FROM employee_salary WHERE username = 'Leslie'")
         result = cursor.fetchone()
 
         if result and float(result[0]) >= amount:
-            cursor.execute("UPDATE balance SET balance = balance - %s WHERE first_name = 'Leslie'", (amount,))
+            cursor.execute("UPDATE employee_salary SET balance = balance - %s WHERE username = 'Leslie'", (amount,))
             connection.commit()
             cursor.close()
             connection.close()
