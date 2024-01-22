@@ -1,0 +1,49 @@
+
+#start cmd to run hadoop
+start-all.cmd
+
+#new cmd
+hive.cmd
+
+#back in the hadoop cmd
+#-p: This option is used to create parent directories as needed. If a directory's parent directories don't exist, the -p option ensures that they are created as well.
+hadoop fs -mkdir -p /user/hive/warehouse
+
+#-chmod: This option is used to change the permissions of files and directories.
+#g+w: This part of the command specifies the changes to be made to the permissions. In this case, it adds write (w) permission to the group (g) of the specified file or directory.
+
+hadoop fs -chmod g+w /user/hive/warehouse
+
+#creating databases, notice that most command is SQL-like
+CREATE DATABASE IF NOT EXISTS sampledb2;
+USE sampledb2;
+
+#use LOCATION to specify the directory in hive
+CREATE TABLE employees (
+    employee_id INT,
+    employee_name STRING,
+    employee_salary DOUBLE
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION 'hdfs://localhost:9000/user/hive/warehouse/employees';
+
+#echo: This is a command that is used to display a message or output to the terminal.
+#-e: This option is specific to the echo command in certain Unix-like systems (like Linux). It enables the interpretation of backslash escapes. In this case, it allows the use of \n to represent a newline character.
+#The | (pipe) symbol at the end of the command is used to redirect the output of the echo command as input to another command. In the context of your question, it seems like the output is being piped into another command or process, likely for further processing or manipulation.
+#example of using echo to put data into a path
+
+echo -e "1,John Doe,50000\n2,Jane Smith,60000\n3,Bob Johnson,55000" | hadoop fs -put - /user/hive/warehouse/employees/employees.txt
+
+#example of directly uploading a txt file to put data into a path, you have to create the file and put the data inside
+#example: 1,John Doe,50000
+#2,Jane Smith,60000
+#3,Bob Johnson,55000
+hadoop fs -put /path/to/local/employees.txt /user/hive/warehouse/employees/
+
+#ATTENTION you have to use this command to load the data in the path to the actual table
+LOAD DATA INPATH '/user/hive/warehouse/employees/employees.txt' INTO TABLE employees;
+
+
+SELECT * FROM employees;

@@ -22,7 +22,7 @@ def get_initial_balance():
     cursor = connection.cursor()
 
     # Execute a SQL query to retrieve the initial balance for a specific user (e.g., Leslie)
-    cursor.execute("SELECT balance FROM employee_salary WHERE username = 'Leslie'")
+    cursor.execute("SELECT balance FROM employee_salary WHERE username = 'Ron'")
     
     # Fetch the result of the query
     result = cursor.fetchone()

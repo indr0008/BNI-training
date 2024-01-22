@@ -1,0 +1,18 @@
+start-dfs.cmd
+
+start-yarn.cmd
+
+hdfs dfs -mkdir -p /user/purna/
+#The -p option in the first command ensures that the entire directory path (/user/purna/) is created, including any missing parent directories.
+
+hdfs dfs -mkdir /user/purna/testdata
+
+hdfs dfs -copyFromLocal C:\Users\purna\Downloads\test /user/purna/testdata
+
+hdfs dfs -ls /user/purna/testdata
+
+#Permissions (drwxr-xr-x): This indicates that it's a directory (d) with read, write, and execute permissions for the owner (rwx), read and execute permissions for the group (r-x), and read and execute permissions for others (r-x).
+
+#Owner (purna): This is the user who owns the directory.
+
+#Group (supergroup): This is the group associated with the directory.

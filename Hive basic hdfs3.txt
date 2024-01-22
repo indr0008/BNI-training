@@ -1,0 +1,29 @@
+# Upload CSV file to HDFS
+hdfs dfs -copyFromLocal C:\Users\purna\OneDrive\Documents\GitHub\BNI-training\ExampleHive.csv /user/purna/testdata
+
+-- Start Hive shell
+hive
+
+-- Create a Hive database (if not exists)
+CREATE DATABASE IF NOT EXISTS databaseindra;
+USE databaseindra;
+
+-- Create a Hive table with HEADER option to skip the first line
+CREATE TABLE IF NOT EXISTS yourtable (
+  col1 STRING,
+  col2 INT,
+  col3 DOUBLE
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/user/purna/testdata'
+TBLPROPERTIES ("skip.header.line.count"="1");
+
+-- Load data into Hive table from HDFS
+LOAD DATA INPATH 'testdata/ExampleHive.csv' INTO TABLE ExampleHive;
+
+-- Query data from the Hive table
+SELECT * FROM yourtable;
+
+
